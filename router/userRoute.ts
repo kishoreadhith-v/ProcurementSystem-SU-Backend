@@ -33,8 +33,12 @@ router.post("/user", async (req: Request, res: Response) => {
 
 // GET: Retrieve user data
 router.get("/user", async (req: Request, res: Response) => {
-    const { user_id, password } = req.query;
+    const { valid, error, decoded } = validateToken(req);
+    if (!valid) {
+        return res.status(401).json({ error });
+    }
 
+    const { user_id, password } = req.query;
     try {
         const result = await query(
             "SELECT * FROM user_account WHERE user_id = $1",
