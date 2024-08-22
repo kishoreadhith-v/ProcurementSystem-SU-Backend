@@ -105,23 +105,25 @@ router.post("/user", async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /api/u/user:
- *   get:
+ * /api/u/login:
+ *   post:
  *     summary: Retrieve user data
  *     tags: [Users]
- *     parameters:
- *       - in: query
- *         name: user_id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user id
- *       - in: query
- *         name: password
- *         schema:
- *           type: string
- *         required: true
- *         description: The user password
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *                 description: The user id
+ *                 example: "12345"
+ *               password:
+ *                 type: string
+ *                 description: The user password
+ *                 example: "password123"
  *     responses:
  *       200:
  *         description: User data retrieved successfully
@@ -142,10 +144,9 @@ router.post("/user", async (req: Request, res: Response) => {
  *       500:
  *         description: Server error
  */
-router.get("/user", async (req: Request, res: Response) => {
+router.post("/login", async (req: Request, res: Response) => {
+    const { user_id, password } = req.body;
 
-
-    const { user_id, password } = req.query;
     try {
         const result = await query(
             "SELECT * FROM user_account WHERE user_id = $1",
