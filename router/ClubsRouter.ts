@@ -10,7 +10,41 @@ interface Club {
     club_name: string;
 }
 
-// GET all clubs
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Club:
+ *       type: object
+ *       properties:
+ *         club_id:
+ *           type: integer
+ *           description: The unique ID of the club
+ *         club_name:
+ *           type: string
+ *           description: The name of the club
+ *       required:
+ *         - club_name
+ * 
+ * /api/c/clubs:
+ *   get:
+ *     summary: Get all clubs
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of clubs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Club'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 router.get('/', async (req: Request, res: Response) => {
     const { valid, error } = validateToken(req);
     if (!valid) {
@@ -26,7 +60,27 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
-// POST (Create a new club)
+/**
+ * @swagger
+ * /api/c/clubs:
+ *   post:
+ *     summary: Create a new club
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Club'
+ *     responses:
+ *       201:
+ *         description: Club created successfully
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 router.post('/', async (req: Request, res: Response) => {
     const { valid, error } = validateToken(req);
     if (!valid) {
@@ -46,7 +100,27 @@ router.post('/', async (req: Request, res: Response) => {
     }
 });
 
-// PUT (Update an existing club)
+/**
+ * @swagger
+ * /api/c/clubs:
+ *   put:
+ *     summary: Update an existing club
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Club'
+ *     responses:
+ *       200:
+ *         description: Club updated successfully
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 router.put('/', async (req: Request, res: Response) => {
     const { valid, error } = validateToken(req);
     if (!valid) {
@@ -66,7 +140,31 @@ router.put('/', async (req: Request, res: Response) => {
     }
 });
 
-// DELETE (Delete an existing club)
+/**
+ * @swagger
+ * /api/c/clubs:
+ *   delete:
+ *     summary: Delete an existing club
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               club_id:
+ *                 type: integer
+ *                 description: The unique ID of the club
+ *     responses:
+ *       200:
+ *         description: Club deleted successfully
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 router.delete('/', async (req: Request, res: Response) => {
     const { valid, error } = validateToken(req);
     if (!valid) {

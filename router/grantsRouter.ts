@@ -12,7 +12,50 @@ interface GrantRequest {
     club_id: number;
 }
 
-// GET all grants
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     GrantRequest:
+ *       type: object
+ *       properties:
+ *         user_id:
+ *           type: integer
+ *           description: The ID of the user requesting the grant
+ *         procurement_id:
+ *           type: integer
+ *           description: The ID of the procurement item
+ *         count:
+ *           type: integer
+ *           description: The number of items requested
+ *         club_id:
+ *           type: integer
+ *           description: The ID of the club
+ *       required:
+ *         - user_id
+ *         - procurement_id
+ *         - count
+ *         - club_id
+ * 
+ * /api/g:
+ *   get:
+ *     summary: Get all grants
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of grants
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/GrantRequest'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 router.get('/', async (req: Request, res: Response) => {
     const { valid, error } = validateToken(req);
     if (!valid) {
@@ -28,7 +71,35 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
-// POST (Create a new grant)
+/**
+ * @swagger
+ * /api/g:
+ *   post:
+ *     summary: Create a new grant
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/GrantRequest'
+ *     responses:
+ *       201:
+ *         description: Grant created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/GrantRequest'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Procurement item not found
+ *       400:
+ *         description: Insufficient count of procurement item
+ *       500:
+ *         description: Internal server error
+ */
 router.post('/', async (req: Request, res: Response) => {
     const { valid, error } = validateToken(req);
     if (!valid) {

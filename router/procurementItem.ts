@@ -12,7 +12,60 @@ interface ProcurementItem {
     item_category: string;
 }
 
-// GET all procurement_item or search by name/category
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ProcurementItem:
+ *       type: object
+ *       properties:
+ *         item_id:
+ *           type: integer
+ *           description: The unique ID of the item
+ *         item_name:
+ *           type: string
+ *           description: The name of the item
+ *         item_count:
+ *           type: integer
+ *           description: The quantity of the item
+ *         item_category:
+ *           type: string
+ *           description: The category of the item
+ *       required:
+ *         - item_name
+ *         - item_count
+ *         - item_category
+ * 
+ * /api/p/procurement_items:
+ *   get:
+ *     summary: Get all procurement items or search by name/category
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: item_name
+ *         schema:
+ *           type: string
+ *         description: Filter items by name
+ *       - in: query
+ *         name: item_category
+ *         schema:
+ *           type: string
+ *         description: Filter items by category
+ *     responses:
+ *       200:
+ *         description: A list of procurement items
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/ProcurementItem'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 router.get('/', async (req: Request, res: Response) => {
     const { valid, error } = validateToken(req);
     if (!valid) {
@@ -37,7 +90,31 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
-// POST (Create a new item)
+/**
+ * @swagger
+ * /api/p/procurement_items:
+ *   post:
+ *     summary: Create a new procurement item
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ProcurementItem'
+ *     responses:
+ *       201:
+ *         description: Item created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ProcurementItem'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 router.post('/', async (req: Request, res: Response) => {
     const { valid, error } = validateToken(req);
     if (!valid) {
@@ -57,7 +134,31 @@ router.post('/', async (req: Request, res: Response) => {
     }
 });
 
-// PUT (Update an existing item)
+/**
+ * @swagger
+ * /api/p/procurement_items:
+ *   put:
+ *     summary: Update an existing procurement item
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ProcurementItem'
+ *     responses:
+ *       200:
+ *         description: Item updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ProcurementItem'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 router.put('/', async (req: Request, res: Response) => {
     const { valid, error } = validateToken(req);
     if (!valid) {
@@ -77,7 +178,39 @@ router.put('/', async (req: Request, res: Response) => {
     }
 });
 
-// DELETE (Delete an item)
+/**
+ * @swagger
+ * /api/p/procurement_items:
+ *   delete:
+ *     summary: Delete a procurement item
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               item_id:
+ *                 type: integer
+ *                 description: The unique ID of the item
+ *     responses:
+ *       202:
+ *         description: Item deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Confirmation message
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 router.delete('/', async (req: Request, res: Response) => {
     const { valid, error } = validateToken(req);
     if (!valid) {

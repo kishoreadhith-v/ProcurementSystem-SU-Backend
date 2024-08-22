@@ -13,7 +13,79 @@ interface User {
     password?: string;
 }
 
-// POST: Create a new user
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - user_id
+ *         - username
+ *         - club_or_association
+ *       properties:
+ *         user_id:
+ *           type: string
+ *           description: The auto-generated id of the user
+ *         username:
+ *           type: string
+ *           description: The name of the user
+ *         club_or_association:
+ *           type: string
+ *           description: The club or association of the user
+ *         password:
+ *           type: string
+ *           description: The password of the user
+ *       example:
+ *         user_id: "1"
+ *         username: "JohnDoe"
+ *         club_or_association: "Chess Club"
+ *         password: "hashed_password"
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: API to manage users
+ */
+
+/**
+ * @swagger
+ * /api/u/user:
+ *   post:
+ *     summary: Create a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *               username:
+ *                 type: string
+ *               club_or_association:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             example:
+ *               user_id: "1"
+ *               username: "JohnDoe"
+ *               club_or_association: "Chess Club"
+ *               password: "password123"
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Server error
+ */
 router.post("/user", async (req: Request, res: Response) => {
     const { user_id, username, club_or_association, password } = req.body;
 
@@ -31,7 +103,45 @@ router.post("/user", async (req: Request, res: Response) => {
     }
 });
 
-// GET: Retrieve user data
+/**
+ * @swagger
+ * /api/u/user:
+ *   get:
+ *     summary: Retrieve user data
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: user_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *       - in: query
+ *         name: password
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user password
+ *     responses:
+ *       200:
+ *         description: User data retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *                 token:
+ *                   type: string
+ *                   description: Authentication token
+ *       401:
+ *         description: Invalid credentials
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
 router.get("/user", async (req: Request, res: Response) => {
     const { valid, error, decoded } = validateToken(req);
     if (!valid) {
@@ -71,6 +181,24 @@ router.get("/user", async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/u/user/all:
+ *   get:
+ *     summary: Retrieve all users
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Server error
+ */
 router.get("/user/all", async (req: Request, res: Response) => {
     try {
         const result = await query("SELECT * FROM user_account", []);
@@ -80,7 +208,44 @@ router.get("/user/all", async (req: Request, res: Response) => {
         res.status(500).json({ error: err.message });
     }
 });
-// PUT: Update user data
+
+/**
+ * @swagger
+ * /api/u/user:
+ *   put:
+ *     summary: Update user data
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *               username:
+ *                 type: string
+ *               club_or_association:
+ *                 type: string
+ *             example:
+ *               user_id: "1"
+ *               username: "JohnDoeUpdated"
+ *               club_or_association: "Chess Club Updated"
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
 router.put("/user", async (req: Request, res: Response) => {
     const { valid, error, decoded } = validateToken(req);
     if (!valid) {
@@ -106,7 +271,29 @@ router.put("/user", async (req: Request, res: Response) => {
     }
 });
 
-// DELETE: Delete a user
+/**
+ * @swagger
+ * /api/u/user:
+ *   delete:
+ *     summary: Delete a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: user_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *     responses:
+ *       204:
+ *         description: User deleted successfully
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
 router.delete("/user", async (req: Request, res: Response) => {
     const { valid, error, decoded } = validateToken(req);
     if (!valid) {
@@ -125,6 +312,5 @@ router.delete("/user", async (req: Request, res: Response) => {
         res.status(500).json({ error: err.message });
     }
 });
-
 
 export default router;
