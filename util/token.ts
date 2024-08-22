@@ -7,7 +7,7 @@ const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key";
 // Define an interface for the user payload
 interface UserPayload {
     user_id: string;
-    username: string;
+    user_name: string;
     club_or_association: string;
 }
 
@@ -15,7 +15,7 @@ interface UserPayload {
 export function generateToken(user: UserPayload): string {
     const payload = {
         user_id: user.user_id,
-        username: user.username,
+        username: user.user_name,
         club_or_association: user.club_or_association,
     };
 

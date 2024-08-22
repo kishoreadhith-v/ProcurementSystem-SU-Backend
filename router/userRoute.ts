@@ -7,8 +7,8 @@ const router = express.Router();
 
 // Define an interface for user data
 interface User {
+    user_name: any;
     user_id: string;
-    username: string;
     club_or_association: string;
     password?: string;
 }
@@ -166,7 +166,7 @@ router.post("/login", async (req: Request, res: Response) => {
             res.status(200).json({
                 user: {
                     user_id: user.user_id,
-                    username: user.username,
+                    username: user.user_name,
                     club_or_association: user.club_or_association,
                 },
                 token,
