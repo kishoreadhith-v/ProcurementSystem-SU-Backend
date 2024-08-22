@@ -6,7 +6,7 @@ module.exports = {
       instances: 4, // Number of instances to run
       exec_mode: "fork", // 'cluster' for clustering
       env: {
-        PORT: 4000,
+        PORT: 3000,
       },
     },
   ],
