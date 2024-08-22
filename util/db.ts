@@ -6,7 +6,6 @@ dotenv.config();
 const pool = new Pool({
     connectionString: process.env.POSTGRES_URL,
     idleTimeoutMillis: 0,
-
 })
 
 export default async function query(text: any, params: any) {

@@ -7,6 +7,7 @@ import ClubsRouter from './router/ClubsRouter';
 import grantsRouter from './router/grantsRouter';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
+import cors from 'cors';
 
 dotenv.config()
 
@@ -27,6 +28,9 @@ const swaggerOptions = {
             {
                 url: 'http://localhost:3000', // Server URL
             },
+            {
+                url: 'https://procurementsystem-su-backend.onrender.com'
+            }
         ],
         components: {
             securitySchemes: {
@@ -45,6 +49,11 @@ const swaggerOptions = {
 const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(cors(
+    {
+        origin: '*',
+    }
+))
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
