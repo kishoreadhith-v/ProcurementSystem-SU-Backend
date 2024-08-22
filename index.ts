@@ -69,6 +69,6 @@ app.use('/api/c', ClubsRouter);
 app.use('/api/g', grantsRouter);
 
 
-app.listen(process.env.EXPRESS_PORT, () => {
+app.listen(process.env.EXPRESS_PORT || 5000, () => {
     console.log('Server is running on port 3000');
 });

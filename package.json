@@ -12,7 +12,8 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "dev": "bun run --watch index.ts"
+    "dev": "bun run --watch index.ts",
+    "start": "bun pm2-runtime ecosystem.config.cjs"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.2",
