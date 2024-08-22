@@ -13,7 +13,7 @@
   },
   "scripts": {
     "dev": "bun run --watch index.ts",
-    "start": "bun pm2-runtime ecosystem.config.cjs"
+    "start": "pm2-runtime start bun --name 'procurement-system' -- run index.ts -i 4 --watch"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.2",

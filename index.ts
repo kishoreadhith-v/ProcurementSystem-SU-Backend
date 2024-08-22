@@ -29,7 +29,7 @@ const swaggerOptions = {
                 url: 'http://localhost:3000', // Server URL
             },
             {
-                url: 'https://procurementsystem-su-backend.onrender.com'
+                url: 'https://procurementsystem-su-backend-1.onrender.com'
             }
         ],
         components: {
