@@ -1,5 +1,8 @@
-# Use the Bun base image
-FROM bunsh/bun:latest
+# Use the Node.js base image
+FROM node:18
+
+# Install Bun.js
+RUN curl -fsSL https://bun.sh/install | bash
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -10,9 +13,6 @@ COPY package.json bun.lockb ./
 # Install application dependencies using Bun
 RUN bun install
 
-# Install PM2 globally
-RUN bun add pm2
-
 # Copy the rest of the application code
 COPY . .
 
@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 3000
 
 # Command to start the application using PM2
-CMD ["bun", "pm2-runtime", "ecosystem.config.cjs"]
+CMD ["bun", "pm2-runtime", "ecosystem.config.js"]
