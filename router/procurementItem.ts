@@ -36,7 +36,7 @@ interface ProcurementItem {
  *         - item_count
  *         - item_category
  * 
- * /api/p/procurement_items:
+ * /api/p/:
  *   get:
  *     summary: Get all procurement items or search by name/category
  *     security:
@@ -92,7 +92,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /api/p/procurement_items:
+ * /api/p/:
  *   post:
  *     summary: Create a new procurement item
  *     security:
@@ -136,7 +136,7 @@ router.post('/', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /api/p/procurement_items:
+ * /api/p/:
  *   put:
  *     summary: Update an existing procurement item
  *     security:
@@ -180,7 +180,7 @@ router.put('/', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /api/p/procurement_items:
+ * /api/p/:
  *   delete:
  *     summary: Delete a procurement item
  *     security:

@@ -26,7 +26,7 @@ interface Club {
  *       required:
  *         - club_name
  * 
- * /api/c/clubs:
+ * /api/c/:
  *   get:
  *     summary: Get all clubs
  *     security:
@@ -62,7 +62,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /api/c/clubs:
+ * /api/c/:
  *   post:
  *     summary: Create a new club
  *     security:
@@ -102,7 +102,7 @@ router.post('/', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /api/c/clubs:
+ * /api/c/:
  *   put:
  *     summary: Update an existing club
  *     security:
@@ -142,7 +142,7 @@ router.put('/', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /api/c/clubs:
+ * /api/c/:
  *   delete:
  *     summary: Delete an existing club
  *     security:
