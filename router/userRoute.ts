@@ -143,10 +143,7 @@ router.post("/user", async (req: Request, res: Response) => {
  *         description: Server error
  */
 router.get("/user", async (req: Request, res: Response) => {
-    const { valid, error, decoded } = validateToken(req);
-    if (!valid) {
-        return res.status(401).json({ error });
-    }
+
 
     const { user_id, password } = req.query;
     try {
