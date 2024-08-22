@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Command to start the application using PM2
-CMD ["pm2","start",'"bun run index.ts',"--name","procurement-system","-i","max","--watch"]
+CMD ["pm2-runtime", "start", "bun", "--name", "procurement-system", "--", "run", "index.ts", "-i", "max", "--watch"]
