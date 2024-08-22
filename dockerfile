@@ -1,9 +1,6 @@
 # Use the Node.js base image
 FROM node:18
 
-# Install Bun.js
-RUN curl -fsSL https://bun.sh/install | bash
-
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
