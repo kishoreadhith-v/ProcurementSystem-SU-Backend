@@ -10,6 +10,10 @@ COPY package.json bun.lockb ./
 # Install application dependencies using Bun
 RUN bun install
 
+CMD ["pm2","list"]
+
+CMD ["pm2","delete","all"]
+
 # Copy the rest of the application code
 COPY . .
 
