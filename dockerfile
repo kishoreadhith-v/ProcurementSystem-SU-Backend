@@ -10,9 +10,8 @@ COPY package.json bun.lockb ./
 # Install application dependencies using Bun
 RUN bun install
 
-CMD ["pm2","list"]
-
-CMD ["pm2","delete","all"]
+# Install PM2 globally
+RUN bun add pm2
 
 # Copy the rest of the application code
 COPY . .
@@ -20,5 +19,9 @@ COPY . .
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Command to start the application using PM2
-CMD ["pm2","start","'bun run index.ts'", "--name","procurement-system" ,"-i","max","--watch","&&" ,"pm2", "logs", "procurement-system"]
+# Add the entrypoint script
+COPY entrypoint.sh /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
+
+# Set the entrypoint to the script
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
