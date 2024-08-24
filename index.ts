@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { type Response, type Request, type NextFunction } from 'express';
 import dotenv from 'dotenv'
 import userRouter from './router/userRoute';
 import morgan from 'morgan';
@@ -8,6 +8,7 @@ import grantsRouter from './router/grantsRouter';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import cors from 'cors';
+import findFreePort from 'find-free-port';
 
 dotenv.config()
 
@@ -68,7 +69,19 @@ app.use('/api/p', procurementItemRouter);
 app.use('/api/c', ClubsRouter);
 app.use('/api/g', grantsRouter);
 
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
-app.listen(process.env.EXPRESS_PORT || 5000, () => {
-    console.log('Server is running on port 3000');
+
+
+findFreePort(3000, (err: any, freePort: any) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    app.listen(freePort, () => {
+        console.log(`Server is running on port ${freePort}`);
+    });
 });
