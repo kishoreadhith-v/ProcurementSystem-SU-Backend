@@ -13,6 +13,8 @@ RUN bun install
 # Copy the rest of the application code
 COPY . .
 
+RUN npm install -g pm2
+
 # Expose the port the app runs on
 EXPOSE 3000
 
