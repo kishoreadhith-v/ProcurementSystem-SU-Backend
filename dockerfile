@@ -13,10 +13,8 @@ RUN bun install
 # Copy the rest of the application code
 COPY . .
 
-RUN bun install -g pm2
-
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Command to start the application using PM2
-CMD pm2 start "bun run index.ts" --name procurement-system -i max --watch && pm2 logs procurement-system
+CMD ["pm2 start 'bun run index.ts' --name procurement-system -i max --watch && pm2 logs procurement-system"]
